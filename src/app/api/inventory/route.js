@@ -5,10 +5,3 @@ export async function GET() {
   const [rows] = await db.query("SELECT * FROM inventory");
   return NextResponse.json(rows);
 }
-
-
-
-
-
-
-
