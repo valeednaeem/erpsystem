@@ -3,6 +3,8 @@ import db from "@/lib/db";
 import { requirePermission } from "@/lib/apiGuard";
 import { logActivity } from "@/lib/activityLogger";
 
+export const dynamic = "force-dynamic";
+
 // GET: list sales orders
 export async function GET(req) {
   const auth = await requirePermission(req, "SALES_VIEW");
@@ -21,24 +23,43 @@ export async function GET(req) {
 }
 
 // POST: create sales order
+// export async function POST(req) {
+//   const auth = await requirePermission(req, "SALES_CREATE");
+//   if (!auth.ok) {
+//     return NextResponse.json({ error: auth.error }, { status: auth.status });
+//   }
+
+//   const { customer_id } = await req.json();
+
+//   const [result] = await db.execute(
+//     `INSERT INTO sales_orders (customer_id, order_date, status)
+//      VALUES (?, CURDATE(), 'pending')`,
+//     [customer_id]
+//   );
+
+//   await logActivity(auth.userId, "CREATE", "sales_orders", result.insertId);
+
+//   return NextResponse.json({
+//     id: result.insertId,
+//     status: "pending",
+//   });
+// }
+
+
 export async function POST(req) {
-  const auth = await requirePermission(req, "SALES_CREATE");
-  if (!auth.ok) {
-    return NextResponse.json({ error: auth.error }, { status: auth.status });
+  const body = await req.json();
+
+  if (!body.customer_id) {
+    return NextResponse.json(
+      { error: "customer_id required" },
+      { status: 400 }
+    );
   }
 
-  const { customer_id } = await req.json();
-
-  const [result] = await db.execute(
-    `INSERT INTO sales_orders (customer_id, order_date, status)
-     VALUES (?, CURDATE(), 'pending')`,
-    [customer_id]
+  await db.query(
+    "INSERT INTO sales_orders (customer_id, status) VALUES (?, 'PENDING')",
+    [body.customer_id]
   );
 
-  await logActivity(auth.userId, "CREATE", "sales_orders", result.insertId);
-
-  return NextResponse.json({
-    id: result.insertId,
-    status: "pending",
-  });
+  return NextResponse.json({ success: true });
 }
