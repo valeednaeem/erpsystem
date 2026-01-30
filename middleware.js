@@ -4,13 +4,13 @@ import db from "@/lib/db";
 export async function middleware(req) {
   const userId = req.cookies.get("user_id")?.value;
 
+  if (!userId) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
   // Allow API auth-free for now
   if (req.nextUrl.pathname.startsWith("/api")) {
     return NextResponse.next();
-  }
-
-  if (!userId) {
-    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   const [rows] = await db.execute(`
