@@ -3,7 +3,6 @@ import db from "@/lib/db";
 import { requirePermission } from "@/lib/apiGuard";
 import { logActivity } from "@/lib/activityLogger";
 
-export const dynamic = "force-dynamic";
 
 // GET: list sales orders
 export async function GET(req) {

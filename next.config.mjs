@@ -3,7 +3,7 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   reactStrictMode: true,
-  output: "export",
+  // output: "export",
 };
 
 export default nextConfig;

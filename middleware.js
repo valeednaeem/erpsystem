@@ -4,23 +4,18 @@ import db from "@/lib/db";
 export async function middleware(req) {
   const userId = req.cookies.get("user_id")?.value;
 
-  if (!userId) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  // Allow API auth-free for now
-  if (req.nextUrl.pathname.startsWith("/api")) {
-    return NextResponse.next();
-  }
+  // if (!userId) {
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  // }
 
   const [rows] = await db.execute(`
-SELECT DISTINCT p.name
-FROM permissions p
-LEFT JOIN role_permissions rp ON p.id = rp.permission_id
-LEFT JOIN user_permissions up ON p.id = up.permission_id
-LEFT JOIN users u ON rp.role_id = u.role_id
-WHERE u.id = ?
-   OR up.user_id = ?
+  SELECT DISTINCT p.name
+  FROM permissions p
+  LEFT JOIN role_permissions rp ON p.id = rp.permission_id
+  LEFT JOIN user_permissions up ON p.id = up.permission_id
+  LEFT JOIN users u ON rp.role_id = u.role_id
+  WHERE u.id = ?
+  OR up.user_id = ?
   `, [userId]);
 
   const permissions = rows.map(r => r.name);
