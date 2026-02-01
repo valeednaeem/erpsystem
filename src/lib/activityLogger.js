@@ -1,4 +1,4 @@
-import db from "./db";
+import db from "@/lib/db";
 
 export async function logActivity(userId, action, module, refId = null) {
   await db.execute(
@@ -7,3 +7,4 @@ export async function logActivity(userId, action, module, refId = null) {
     [userId, action, module, refId]
   );
 }
+
