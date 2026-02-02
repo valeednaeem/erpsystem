@@ -1,5 +1,5 @@
 // lib/apiGuard.js
-import db from "@/lib/db";
+import db from "./db";
 
 export async function requirePermission(userId, permission) {
   const [rows] = await db.execute(`
@@ -14,4 +14,3 @@ export async function requirePermission(userId, permission) {
     throw new Error("Forbidden");
   }
 }
-
