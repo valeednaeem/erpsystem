@@ -1,4 +1,4 @@
-import db from "../../../../../lib/db";
+import db from "../../../../lib/db";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -15,5 +15,6 @@ export async function POST(req) {
 
   return NextResponse.json({ user: rows[0] });
 }
+
 
 
