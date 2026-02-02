@@ -2,7 +2,7 @@ import mysql from "mysql2/promise";
 
 let pool;
 
-export function db() {
+export default function db() {
   if (!pool) {
     pool = mysql.createPool({
       host: process.env.DB_HOST || "localhost",
@@ -18,3 +18,4 @@ export async function execute(query, params = []) {
   const db = db();
   return db.execute(query, params);
 }
+
