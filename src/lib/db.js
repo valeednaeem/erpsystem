@@ -1,21 +1,22 @@
+// connecting the database for user validation, role checking and more using mysql2
 import mysql from "mysql2/promise";
 
-let pool;
+const dbConfig = {
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "erm",
+};
 
-export default function db() {
-  if (!pool) {
-    pool = mysql.createPool({
-      host: process.env.DB_HOST || "localhost",
-      user: process.env.DB_USER || "root",
-      password: process.env.DB_PASS || "",
-      database: process.env.DB_NAME || "erm",
-    });
-  }
-  return pool;
-}
+const db = {
+    query: async (query, params) => {
+        const connection = await mysql.createConnection(dbConfig);
+        console.log("Database Connected!")
+        const [results] = await connection.execute(query, params);
+        console.log("Query Executed!");
+        await connection.end();
+        return results;
+    },
+};
 
-export async function execute(query, params = []) {
-  const db = db();
-  return db.execute(query, params);
-}
-
+export default db;
