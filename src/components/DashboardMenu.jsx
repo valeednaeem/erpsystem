@@ -34,7 +34,7 @@ export default function DashboardMenu({ user }) {
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li><Link className="dropdown-item" href="/profile">Profile</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" href="/logout">Logout</Link></li>
+                <li><Link className="dropdown-item" href="dashboard/logout">Logout</Link></li>
               </ul>
             </li>
           </ul>

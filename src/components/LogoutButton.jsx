@@ -10,7 +10,7 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
-      const response = await fetch('/api/auth/logout', { 
+      const response = await fetch('/erpsystem/api/auth/logout', { 
         method: 'POST',
         credentials: 'include', // Ensure cookies are sent
         headers: { 'Content-Type': 'application/json' },

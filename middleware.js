@@ -1,13 +1,26 @@
 import { NextResponse } from "next/server";
 import db from "./src/lib/db.js";
 import { getUserWithPermissions, isAdmin } from "./src/lib/permissions.js";
+import Swal from 'sweetalert2';
 
 // Middleware: allow only authenticated users to reach protected areas.
 // - Any authenticated user can access `/dashboard` and see features based on role.
 // - `/admin` routes remain restricted to users with the `admin` role.
 export async function middleware(req) {
+    Swal.fire({
+        title: "Test",
+        text: "Testing the sweet alert!!"
+    });
     const userId = req.cookies.get("user_id")?.value;
     if (!userId) {
+
+        Swal.fire({
+            title: 'Error!',
+            text: '[middleware] no user_id cookie, redirecting to /login',
+            icon: 'error',
+            confirmationButton: false
+        });
+
         console.log("[middleware] no user_id cookie, redirecting to /login", req.nextUrl.pathname);
         return NextResponse.redirect(new URL("/login", req.url));
     }

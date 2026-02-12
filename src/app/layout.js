@@ -1,13 +1,13 @@
-
 import "./globals.css";
+export const dynamic = "force-dynamic";
 import { cookies } from 'next/headers';
 import db from '../lib/db.js';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import Link from "next/link";
 import Script from "next/script";
 import MainMenu from '../components/MainMenu.jsx';
 
-const LogoutButton = dynamic(() => import('../components/LogoutButton'));
+// const LogoutButton = dynamic(() => import('../components/LogoutButton'));
 
 export const metadata = {
   title: "Frontend Web App - Enterprise Resource Planning System",
@@ -20,6 +20,7 @@ export default async function RootLayout({ children }) {
 
   try {
     const cookieStore = await cookies();
+    console.log(cookieStore);
     userId = cookieStore.get('user_id')?.value ?? null;
 
     if (userId) {
